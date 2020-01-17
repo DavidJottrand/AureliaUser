@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: AureliaUser
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: AureliaConfigServer
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URI:http://localhost:3000/eureka/}
+encrypt:
+  key: KratosEstLePlusBeau
