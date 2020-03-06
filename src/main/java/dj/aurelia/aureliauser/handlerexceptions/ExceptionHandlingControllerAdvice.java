@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class ExceptionHandlingControllerAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserException.class)
-    public ResponseEntity<Object> handleKbrException(UserException ex) {
+    public ResponseEntity<Object> handleUserException(UserException ex) {
         HashMap<String, String> map = new HashMap<>();
         map.put("message", ex.getMessage());
         map.put("status", ex.getStatus().value() + "");

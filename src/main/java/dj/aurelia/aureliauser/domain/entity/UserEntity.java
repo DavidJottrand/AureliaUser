@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity(name = "USERS")
@@ -44,4 +45,8 @@ public class UserEntity {
     @Column(name = "LASTPASSWORDRESETDATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastPasswordResetDate;
+
+    @Column(name = "CHARACTERS")
+    @Type(type="uuid-char")
+    private List<UUID> characters;
 }

@@ -9,7 +9,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@RefreshScope
 public interface UserRepository extends JpaRepository<UserEntity, UUID> {
 
     Optional<UserEntity> findByUsername(String username);

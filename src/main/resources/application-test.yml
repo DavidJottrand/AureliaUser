@@ -2,12 +2,18 @@ spring:
   application:
     name: AureliaUser
   datasource:
-    url: jdbc:mysql://localhost:3306/aurelia_user_db
-    username: root
-    password: '{cipher}8f6232cd9c33135aec4a0436fda3ac97c7af8abbab5919b3af8c5cfa66f4d2cb'
+    url: jdbc:h2:mem:userdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: '{cipher}d4cf8560bc7f657d6ace50d5759d0ba822dbda1296826af495a1053b5f292bb1'
   jpa:
     hibernate:
       ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+#      dialect: org.hibernate.dialect.MySQL8Dialect
 server:
   port: 3002
 eureka:
