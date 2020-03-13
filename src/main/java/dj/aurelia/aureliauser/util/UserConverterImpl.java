@@ -25,6 +25,7 @@ public class UserConverterImpl implements UserConverter {
                 .email(entity.getEmail())
                 .enabled(entity.getEnabled())
                 .characters(entity.getCharacters())
+                .authorities(entity.getAuthorities())
                 .build();
     }
 
@@ -42,6 +43,7 @@ public class UserConverterImpl implements UserConverter {
                     .enabled(dto.getEnabled())
                     .lastPasswordResetDate(date)
                     .characters(dto.getCharacters())
+                    .authorities(dto.getAuthorities())
                     .build();
         }
         else {
@@ -51,6 +53,7 @@ public class UserConverterImpl implements UserConverter {
                     .email(dto.getEmail())
                     .enabled(dto.getEnabled())
                     .characters(dto.getCharacters())
+                    .authorities(dto.getAuthorities())
                     .build();
         }
     }

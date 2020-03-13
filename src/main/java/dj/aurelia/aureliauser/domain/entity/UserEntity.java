@@ -9,6 +9,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -49,4 +50,8 @@ public class UserEntity {
     @Column(name = "CHARACTERS")
     @Type(type="uuid-char")
     private List<UUID> characters;
+
+    @Column(name = "AUTHORITIES")
+    @ElementCollection
+    private List<Long> authorities;
 }

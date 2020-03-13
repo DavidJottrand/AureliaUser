@@ -2,6 +2,7 @@ package dj.aurelia.aureliauser.controller;
 
 import dj.aurelia.aureliauser.domain.RegisterForm;
 import dj.aurelia.aureliauser.domain.dto.UserDto;
+import dj.aurelia.aureliauser.domain.entity.UserEntity;
 import dj.aurelia.aureliauser.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin("*")
 public class UserController {
 
     private static Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -22,6 +24,11 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping("/username/security/{username}")
+    public UserEntity findUserbyUsernameSecurity(@PathVariable("username")String username) {
+        return userService.findUserbyUsernameSecurity(username);
     }
 
     @PostMapping

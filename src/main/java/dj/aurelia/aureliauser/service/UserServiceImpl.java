@@ -1,6 +1,5 @@
 package dj.aurelia.aureliauser.service;
 
-import dj.aurelia.aureliauser.config.SaltConfig;
 import dj.aurelia.aureliauser.domain.RegisterForm;
 import dj.aurelia.aureliauser.domain.dto.UserDto;
 import dj.aurelia.aureliauser.domain.entity.UserEntity;
@@ -10,6 +9,7 @@ import dj.aurelia.aureliauser.repository.UserRepository;
 import dj.aurelia.aureliauser.util.UserConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,15 +26,15 @@ public class UserServiceImpl implements UserService {
 
 
     private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-    private SaltConfig saltConfig;
     private UserRepository userRepository;
     private UserConverter userConverter;
 
-    public UserServiceImpl(SaltConfig saltConfig, UserRepository userRepository, UserConverter userConverter) {
-        this.saltConfig = saltConfig;
+    private List<Long> roles = new ArrayList<>();
+
+    public UserServiceImpl(UserRepository userRepository, UserConverter userConverter) {
         this.userRepository = userRepository;
         this.userConverter = userConverter;
-        logger.info("SALT : " + saltConfig.getSALT());
+        roles.add(2L);
     }
 
     @Override
@@ -46,10 +46,11 @@ public class UserServiceImpl implements UserService {
             UserEntity userEntity = UserEntity.builder()
                     .uuid(UUID.randomUUID())
                     .username(form.getUsername())
-                    .password(form.getPassword() + saltConfig.getSALT())
+                    .password(new BCryptPasswordEncoder().encode(form.getPassword()))
                     .email(form.getEmail())
                     .lastPasswordResetDate(Date.from(Instant.now()))
                     .enabled(true)
+                    .authorities(roles)
                     .build();
             userEntity = userRepository.save(userEntity);
             return userConverter.FromEntityToDto(userEntity);
@@ -113,6 +114,17 @@ public class UserServiceImpl implements UserService {
             return true;
         }
         else{
+            throw new UserNotFoundException("None user found with the username : " + username);
+        }
+    }
+
+    @Override
+    public UserEntity findUserbyUsernameSecurity(String username) {
+        Optional<UserEntity> opt = userRepository.findByUsername(username);
+        if(opt.isPresent()){
+            return opt.get();
+        }
+        else {
             throw new UserNotFoundException("None user found with the username : " + username);
         }
     }
